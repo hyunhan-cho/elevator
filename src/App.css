@@ -1,0 +1,165 @@
+/* 앱 전체 레이아웃 */
+.app {
+  /* 밝은 회색 배경 (레퍼런스 느낌) */
+  background: linear-gradient(180deg, #eef2f5 0%, #e5ebf1 40%, #d9e1ea 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 16px 40px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: #fff;
+  /* 공통 폭 변수 */
+  --wrap-width: 410px;       /* 엘리베이터/컨트롤 기준 폭 */
+  --panel-width: 360px;      /* 하단 카드 폭 (두 카드 동일) */
+}
+
+.elevator-wrapper {
+  width: 100%;
+  max-width: var(--wrap-width);
+  margin: 0 auto 14px;
+}
+
+/* 엘리베이터 본체 */
+.elevator {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border: 5px solid #64748b;
+  border-radius: 20px; /* 더 둥글게 */
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  background: #0f172a;
+}
+
+/* 흔들림 애니메이션 */
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-1px, 0, 0); }
+  40%, 60% { transform: translate3d(1px, 0, 0); }
+}
+.elevator-moving {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both infinite;
+}
+
+/* 층 표시기 - 제거됨, TopInfo가 대체 */
+
+/* 창밖 풍경 */
+.floor-scene {
+  position: absolute;
+  inset: 0;
+  transition: all 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.scene-label {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-weight: 900;
+  font-size: 20px;
+  background: rgba(15,23,42,.7);
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+  letter-spacing: 0.5px;
+}
+
+/* 엘리베이터 내부 프레임 */
+.elevator-inside {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* 엘리베이터 문 */
+.door {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 50%;
+  z-index: 20;
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  transition: transform 1.5s ease-in-out;
+}
+.door-left { left: 0; background-position: left; }
+.door-right { right: 0; background-position: right; }
+
+/* 제어판 */
+.control-panel {
+  background: #d1d5db; /* gray-300 */
+  padding: 16px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.btn {
+  padding: 14px;
+  font-size: 22px;
+  font-weight: 800;
+  border-radius: 8px;
+  background: #6b7280; /* gray-500 */
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, opacity 0.2s;
+}
+.btn:hover { background: #f59e0b; /* amber-500 */ }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-active { background: #fbbf24; color: #111827; }
+
+.hint { margin-top: 24px; text-align: center; }
+
+/* 상단 정보 배지 - 세로 배치 */
+.top-info { position: absolute; top: 14px; left: 14px; display: flex; flex-direction: column; gap: 8px; z-index: 35; }
+.badge { background: #fff; color: #111827; border-radius: 10px; padding: 10px 14px; box-shadow: 0 4px 12px rgba(0,0,0,.3); border: 3px solid #0f172a; font-size: 14px; line-height: 1.3; }
+.badge.date { font-weight: 800; }
+.badge.floor { font-weight: 800; display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+.badge.floor > div:first-child { font-size: 12px; font-weight: 600; }
+.badge.floor > div:last-child { font-size: 20px; font-weight: 900; }
+
+/* 구름 */
+.cloud { position: absolute; width: 80px; height: 40px; background: rgba(255,255,255,.9); border-radius: 40px; filter: drop-shadow(0 2px 2px rgba(0,0,0,.15)); opacity: .9; }
+.cloud:before, .cloud:after { content: ''; position: absolute; background: inherit; border-radius: 50%; }
+.cloud:before { width: 32px; height: 32px; left: 10px; top: -12px; }
+.cloud:after { width: 42px; height: 42px; left: 34px; top: -18px; }
+.c1 { left: 12%; top: 26%; animation: cloud-move 18s linear infinite; }
+.c2 { left: 55%; top: 38%; animation: cloud-move 24s linear infinite reverse; }
+.c3 { left: 32%; top: 58%; animation: cloud-move 20s linear infinite; }
+@keyframes cloud-move { from { transform: translateX(-20px); } to { transform: translateX(20px); } }
+
+/* 캐릭터 (원형 이모지 느낌) - 문보다 아래 레이어 */
+.character { position: absolute; bottom: 14px; left: 20px; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff7cc, #facc15); box-shadow: inset 0 -6px 0 rgba(0,0,0,.15), 0 4px 10px rgba(0,0,0,.25); z-index: 15; }
+.character:after { content: ''; position: absolute; bottom: -6px; left: 8px; width: 14px; height: 10px; background: #b45309; border-radius: 10px; box-shadow: 32px 0 0 #b45309; }
+
+/* 미니 컨트롤 (위/아래 버튼) */
+.mini-controls { display: flex; gap: 12px; justify-content: center; margin: 14px auto 20px; width: var(--wrap-width); }
+.mini { width: 48px; height: 40px; font-weight: 900; font-size: 18px; border-radius: 9999px; border: none; background: #1e293b; color: #fff; cursor: pointer; box-shadow: 0 6px 14px rgba(0,0,0,.3); transition: all .2s; display: flex; align-items: center; justify-content: center; }
+.mini:hover { background: #334155; transform: translateY(-2px); }
+.mini:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+/* 공통 패널 */
+.panel { background: #e5e7eb; color: #111827; margin: 0 auto 16px; padding: 18px; border-radius: 22px; width: var(--panel-width); max-width: 100%; box-shadow: 0 10px 24px rgba(0,0,0,.3); }
+.panel-title { margin: 0 0 12px; font-size: 17px; font-weight: 800; }
+
+/* 진행바 */
+.progress { height: 16px; background: #d1d5db; border-radius: 999px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,.2); }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #fde68a, #fbbf24); width: 0%; transition: width .4s ease; }
+.progress-label { text-align: right; margin-top: 8px; font-weight: 700; color: #6b7280; font-size: 15px; }
+
+/* 퀘스트 리스트 */
+.quest-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.quest { background: #fff; border-radius: 12px; padding: 12px 14px; box-shadow: 0 2px 4px rgba(0,0,0,.08); transition: all .2s; width: 100%; box-sizing: border-box; }
+.quest:hover { box-shadow: 0 4px 8px rgba(0,0,0,.12); }
+.quest label { display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: 15px; }
+.quest input { width: 20px; height: 20px; cursor: pointer; }
+.quest.done { background: #64748b; text-decoration: line-through; color: #f1f5f9; }
