@@ -5,6 +5,7 @@ import TopInfo from './components/TopInfo.jsx'
 import AchievementPanel from './components/AchievementPanel.jsx'
 import QuestList from './components/QuestList.jsx'
 import { floors } from './constants/floors.js'
+import Badges from './components/Badges.jsx'
 
 // 공개 폴더(public)에 둔 이미지 경로를 사용합니다.
 const elevatorInsideImg = '/images/frame.png' // 엘리베이터 내부(창문 투명)
@@ -89,6 +90,7 @@ export default function App() {
       {/* 하단 패널: 성취도 & 퀘스트 */}
   <AchievementPanel value={progressInfo.percent ?? 0} />
   <QuestList onProgressChange={setProgressInfo} />
+  <Badges currentFloor={currentFloor} />
     </div>
   )
 }

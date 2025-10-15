@@ -1,3 +1,11 @@
+/* 획득한 뱃지 UI */
+.earned-badges-row { display: flex; gap: 10px; align-items: center; }
+.earned-badge-img { width: clamp(40px, 12vw, 52px); height: auto; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; }
+/* 배지 획득 토스트 */
+.toast-layer { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+.badge-toast { display: flex; align-items: center; gap: 10px; background: rgba(17,24,39,0.9); color: #fff; padding: 10px 14px; border-radius: 12px; box-shadow: 0 10px 24px rgba(0,0,0,.35); animation: toast-pop .25s ease-out; }
+.badge-toast-img { width: 32px; height: 32px; image-rendering: pixelated; }
+@keyframes toast-pop { from { transform: translateY(10px) scale(.98); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
 /* 앱 전체 레이아웃 */
 /* 글로벌 박스사이징으로 모바일 스크롤 튐 방지 및 예상치 못한 폭 증가 방지 */
 *, *::before, *::after { box-sizing: border-box; }
@@ -157,6 +165,10 @@
 /* 공통 패널 */
 .panel { background: #e5e7eb; color: #111827; margin: 0 auto 16px; padding: clamp(14px, 4vw, 18px); border-radius: 22px; width: var(--panel-width); max-width: 100%; box-shadow: 0 10px 24px rgba(0,0,0,.3); }
 .panel-title { margin: 0 0 12px; font-size: 17px; font-weight: 800; }
+
+/* 획득한 뱃지 UI */
+.earned-badges-row { display: flex; gap: 10px; align-items: center; }
+.earned-badge-img { width: clamp(40px, 12vw, 52px); height: auto; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; }
 
 /* 진행바 */
 .progress { height: clamp(12px, 3.8vw, 16px); background: #d1d5db; border-radius: 999px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,.2); }
