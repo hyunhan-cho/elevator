@@ -15,9 +15,9 @@ export default function TopInfo({ currentFloor, direction }) {
       <div className="badge date">{formatKoreanDate()}</div>
       <div className="badge floor">
         <div>현재 층수</div>
-        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-          <strong>{currentFloor}</strong>
-          <span style={{ color: arrowColor }}>{arrow}</span>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'baseline' }}>
+          <strong style={{ fontSize: '1.4em', lineHeight: 1 }}>{currentFloor}</strong>
+          <span style={{ color: arrowColor, fontSize: '0.9em', lineHeight: 1, marginTop: '-1px' }}>{arrow}</span>
         </div>
       </div>
     </div>
