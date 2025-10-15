@@ -59,8 +59,15 @@ export default function App() {
             }}
           />
 
-          {/* 캐릭터 */}
-          <div className="character" title="오늘의 나" />
+          {/* 캐릭터: 이미지로 교체 (public/images/mascot.png 를 사용) */}
+          <img
+            className="character-img"
+            src="/images/mascot.png"
+            alt="오늘의 나"
+            title="오늘의 나"
+            loading="eager"
+            decoding="async"
+          />
 
           {/* 엘리베이터 문 */}
           <ElevatorDoor isOpen={isOpen} />
