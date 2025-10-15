@@ -22,8 +22,10 @@ export default function QuestList({ onProgressChange }) {
   }, [items])
 
   React.useEffect(() => {
-    onProgressChange?.(progress)
-  }, [progress, onProgressChange])
+    const total = items?.length ?? 0
+    const done = items?.filter(i => i.done).length ?? 0
+    onProgressChange?.({ percent: progress, done, total })
+  }, [progress, onProgressChange, items])
 
   const toggle = (id) => {
     setItems(items.map(i => i.id === id ? { ...i, done: !i.done } : i))

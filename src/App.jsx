@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import ElevatorDoor from './components/ElevatorDoor.jsx'
 import TopInfo from './components/TopInfo.jsx'
@@ -14,6 +14,7 @@ export default function App() {
   const [isMoving, setIsMoving] = useState(false)
   const [currentFloor, setCurrentFloor] = useState(1)
   const [direction, setDirection] = useState('up')
+  const [progressInfo, setProgressInfo] = useState({ percent: 0, done: 0, total: 0 })
 
   const goToFloor = (targetFloor) => {
     if (isMoving || !isOpen || currentFloor === targetFloor) return
@@ -32,8 +33,17 @@ export default function App() {
     }, 3500) // 1500ms(닫힘) + 2000ms(이동)
   }
 
-  const [progress, setProgress] = useState(0)
   const floor = floors[currentFloor]
+
+  // 진행도(퀘스트 완료 수)에 따라 목표 층 계산: 1층 + 완료 개수
+  useEffect(() => {
+    const maxFloor = Object.keys(floors).length
+    const desired = Math.max(1, Math.min(1 + (progressInfo?.done ?? 0), maxFloor))
+    if (desired !== currentFloor) {
+      // 이동 중이면 goToFloor 내부에서 early return됨; isMoving 변경 시 이 effect가 재실행되어 재시도함
+      goToFloor(desired)
+    }
+  }, [progressInfo, currentFloor, isMoving, isOpen])
   return (
     <div className="app">
       <div className="elevator-wrapper">
@@ -73,16 +83,12 @@ export default function App() {
           <ElevatorDoor isOpen={isOpen} />
         </div>
 
-        {/* 컨트롤: 위/아래 작은 버튼 */}
-        <div className="mini-controls">
-          <button className="mini" disabled={isMoving || !isOpen || currentFloor>=4} onClick={() => goToFloor(currentFloor+1)}>▲</button>
-          <button className="mini" disabled={isMoving || !isOpen || currentFloor<=1} onClick={() => goToFloor(currentFloor-1)}>▼</button>
-        </div>
+        {/* 수동 컨트롤 제거: 진행도 변화에 따라 자동 이동 */}
       </div>
 
       {/* 하단 패널: 성취도 & 퀘스트 */}
-      <AchievementPanel value={progress} />
-      <QuestList onProgressChange={setProgress} />
+  <AchievementPanel value={progressInfo.percent ?? 0} />
+  <QuestList onProgressChange={setProgressInfo} />
     </div>
   )
 }
