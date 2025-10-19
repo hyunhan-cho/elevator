@@ -31,8 +31,8 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 .app {
-  /* 밝은 회색 배경 (레퍼런스 느낌) */
-  background: linear-gradient(180deg, #eef2f5 0%, #e5ebf1 40%, #d9e1ea 100%);
+  /* Figma 스타일의 틸 배경 */
+  background: linear-gradient(180deg, #3a8284 0%, #2f6f6d 55%, #1c2d2c 100%);
   /* 모바일 브라우저 주소창 변동 대응: dvh를 우선 사용, 미지원 시 vh 사용 */
   min-height: 100dvh;
   min-height: 100vh;
@@ -47,17 +47,20 @@
   padding: calc(16px + env(safe-area-inset-top, 0px)) clamp(10px, 4vw, 16px) calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   color: #fff;
-  /* 공통 폭 변수: 화면이 작을 때는 vw 기준으로 줄이고, 큰 화면에서는 고정 최대폭 유지 */
-  --wrap-width: min(92vw, 410px);   /* 엘리베이터/컨트롤 기준 폭 */
-  --panel-width: clamp(320px, 92vw, 420px);  /* 하단 카드 폭 (반응형) */
+  /* 공통 폭 변수: 패널은 여전히 카드 폭, 엘리베이터는 풀블리드 */
+  --wrap-width: min(92vw, 410px);
+  --panel-width: clamp(320px, 92vw, 420px);
 }
 
 .app.home-view { padding-top: 0 !important; }
 
+/* 엘리베이터를 좌우 여백 없이 풀블리드로 */
 .elevator-wrapper {
-  width: 100%;
-  max-width: var(--wrap-width);
-  margin: 0 auto 14px;
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-bottom: 10px;
 }
 
 /* 엘리베이터 본체 */
@@ -66,7 +69,9 @@
   width: 100%;
   aspect-ratio: 3 / 4;
   border: 5px solid #64748b;
-  border-radius: 20px; /* 더 둥글게 */
+  /* 엘리베이터 외곽 모서리: 각지게(0px) */
+  --elevator-radius: 0px;
+  border-radius: var(--elevator-radius);
   overflow: hidden;
   box-shadow: 0 16px 40px rgba(0,0,0,0.4);
   background: #0f172a;
@@ -117,6 +122,8 @@
   z-index: 10;
   background-size: 100% 100%;
   background-repeat: no-repeat;
+  /* 외곽 라운드와 일치 */
+  border-radius: inherit;
 }
 
 /* 엘리베이터 문 */
@@ -129,8 +136,8 @@
   background-repeat: no-repeat;
   transition: transform 1.5s ease-in-out;
 }
-.door-left { left: 0; background-position: left; }
-.door-right { right: 0; background-position: right; }
+.door-left { left: 0; background-position: left; border-top-left-radius: var(--elevator-radius); border-bottom-left-radius: var(--elevator-radius); }
+.door-right { right: 0; background-position: right; border-top-right-radius: var(--elevator-radius); border-bottom-right-radius: var(--elevator-radius); }
 
 /* 제어판 */
 .control-panel {
@@ -200,15 +207,49 @@
 .card-count { font-weight: 800; color: #6b7280; }
 
 /* Progress bar */
-.bar-row { display: flex; align-items: center; gap: 10px; }
-.bar { position: relative; flex: 1 1 auto; height: clamp(12px, 3.6vw, 16px); background: linear-gradient(180deg, #e9ecef 0%, #e3e6ea 50%, #d9dde3 100%); border-radius: 999px; box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -1px 0 rgba(0,0,0,.09); overflow: hidden; }
-.bar-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: linear-gradient(180deg, #d0824e 0%, #c56e3c 100%); border-radius: 999px; box-shadow: inset 0 2px 0 rgba(255,255,255,.55), inset 0 -1px 0 rgba(0,0,0,.08); filter: drop-shadow(0 1px 2px rgba(0,0,0,.16)); transition: width .3s ease; }
+.bar-row { display: flex; align-items: center; gap: 8px; }
+.bar { 
+  position: relative; 
+  flex: 1 1 auto; 
+  height: 56px; 
+  background: linear-gradient(180deg, #e9ecef 0%, #e3e6ea 50%, #d9dde3 100%); 
+  border-radius: 9999px; 
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -1px 0 rgba(0,0,0,.09); 
+  overflow: hidden; 
+}
+.bar-fill { 
+    position: absolute; 
+    left: 0; 
+    top: 0; 
+    bottom: 0; 
+    width: 0; 
+    background: linear-gradient(180deg, #d0824e 0%, #c56e3c 100%); 
+  border-radius: inherit; 
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.55), inset 0 -1px 0 rgba(0,0,0,.08); 
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.16)); 
+    transition: width .3s ease;
+}
 /* specular highlight stripe */
-.bar-fill::before { content: ""; position: absolute; left: 6px; right: 12%; top: 2px; height: 28%; background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.55)); border-radius: 999px; pointer-events: none; }
-.bar-count { min-width: 36px; text-align: right; font-weight: 800; color: #9aa3ad; }
-
+.bar-fill::before { 
+    content: ""; 
+    position: absolute; 
+    left: 8px; 
+  right: 8px; 
+  top: 20%; 
+  height: 36%; 
+    background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.55)); 
+  border-radius: inherit; 
+    pointer-events: none; 
+}
+.bar-count { 
+    min-width: 36px; 
+    text-align: right; 
+    font-weight: 800; 
+    color: #9aa3ad; 
+    font-size: 14px;
+}
 /* Quests */
-.card-quests .bar { height: clamp(12px, 3.6vw, 16px); margin: 6px 0 12px; }
+.card-quests .bar { height: clamp(16px, 4.6vw, 20px); margin: 6px 0 12px; border-radius: 9999px; }
 .quest-list.fancy { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .quest-item { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: clamp(10px, 3vw, 12px) clamp(12px, 3.4vw, 14px); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
 .quest-item.done { background: #c7cbd1; border-color: #c7cbd1; box-shadow: inset 0 2px 6px rgba(0,0,0,.08); }
@@ -250,12 +291,12 @@
 
 /* 작은 화면에서 디테일 추가 조정 */
 @media (max-width: 480px) {
-  .elevator { border-width: 4px; border-radius: 16px; }
+  .elevator { border-width: 4px; border-radius: var(--elevator-radius); }
   .top-info { top: 12px; left: 12px; gap: 6px; }
 }
 
 @media (max-width: 360px) {
-  .elevator { border-width: 3px; border-radius: 14px; }
+  .elevator { border-width: 3px; border-radius: var(--elevator-radius); }
   .mini-controls { gap: 10px; }
 }
 
