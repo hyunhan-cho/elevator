@@ -21,6 +21,9 @@ export default function Weekbar({ done = 0, total = 0 }) {
   const today = new Date()
   const isToday = (d) => d.getFullYear()===today.getFullYear() && d.getMonth()===today.getMonth() && d.getDate()===today.getDate();
   const todayDone = done > 0 && total > 0;
+  const dayKey = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const isPast = (d) => dayKey(d) < dayKey(today);
+  const isFuture = (d) => dayKey(d) > dayKey(today);
 
   const keyForDate = (d) => `quests:${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`
   const getStatus = (d) => {
@@ -50,9 +53,18 @@ export default function Weekbar({ done = 0, total = 0 }) {
         <button className="weekbar-arrow" aria-label="이전 주" onClick={() => setAnchor(new Date(anchor.setDate(anchor.getDate()-7)))}>{'<'}</button>
         <div className="weekbar-chips">
           {days.map((d, i) => {
-            const cls = ['chip', getStatus(d)]
-            if (isToday(d)) cls.push('today')
-            if (isToday(d) && todayDone) cls.push('done')
+            const cls = ['chip']
+            const status = getStatus(d)
+            if (isPast(d)) {
+              cls.push('past')
+              // Figma spec: success=red, not achieved=blue (partial treated as not achieved)
+              if (status === 'good') cls.push('pass')
+              else cls.push('fail')
+            } else if (isToday(d)) {
+              cls.push('today')
+            } else if (isFuture(d)) {
+              cls.push('future')
+            }
             return (
               <div key={i} className={cls.join(' ')}>
                 {d.getDate()}

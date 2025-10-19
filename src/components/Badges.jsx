@@ -39,7 +39,7 @@ export default function Badges({ currentFloor = 1 }) {
 
 	return (
 		<section className="panel">
-			<h2 className="panel-title">획득한 뱃지</h2>
+			<h2 className="panel-title"><bold>획득한 뱃지</bold></h2>
 			<div className="earned-badges-row">
 				{owned.map((src, i) => (
 					<img
