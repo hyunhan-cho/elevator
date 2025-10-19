@@ -8,8 +8,8 @@ import settingIcon from '../assets/navvar/button_setting.png'
 
 export default function Navbar({ onNavigate }) {
   const items = [
-    { key: 'team', label: '팀 플레이스', icon: teamIcon },
-    { key: 'calendar', label: '내 캘린더', icon: calendarIcon },
+    { key: 'team', label: '팀플레이스', icon: teamIcon },
+    { key: 'calendar', label: '내캘린더', icon: calendarIcon },
     { key: 'home', label: '엘리베이터', icon: homeIcon },
     { key: 'paint', label: '꾸미기', icon: paintIcon },
     { key: 'settings', label: '설정', icon: settingIcon },
