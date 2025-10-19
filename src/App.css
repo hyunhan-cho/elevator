@@ -277,10 +277,17 @@
 
 /* Weekbar */
 .weekbar { background: #f3f4f6; border-radius: 18px; border: 2px solid rgba(0,0,0,.6); box-shadow: 0 10px 24px rgba(0,0,0,.25); width: 100%; max-width: var(--panel-width); margin: 0 auto 18px; padding: clamp(10px, 2.8vw, 12px) clamp(10px, 2.8vw, 12px) clamp(12px, 3.2vw, 14px); position: relative; overflow: hidden; }
-.weekbar-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: clamp(4px, 1.4vw, 8px); justify-items: center; color: #6b7280; font-weight: 900; font-size: clamp(10px, 2.6vw, 12px); text-transform: lowercase; }
+.weekbar, .weekbar * { font-family: var(--font-sans) !important; }
+.weekbar-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: clamp(4px, 1.4vw, 8px); justify-items: center; color: #6b7280; font-weight: 900; font-size: clamp(10px, 2.6vw, 12px); text-transform: lowercase; letter-spacing: 0.2px; }
 .weekbar-body { display: grid; grid-template-columns: clamp(20px, 6vw, 24px) 1fr clamp(20px, 6vw, 24px); align-items: center; margin-top: clamp(6px, 2vw, 8px); gap: clamp(4px, 1.6vw, 6px); }
 .weekbar-chips { display: grid; grid-template-columns: repeat(7, 1fr); gap: clamp(6px, 1.8vw, 10px); }
-.chip { width: 100%; aspect-ratio: 1 / 1; border-radius: 9999px; background: #e5e7eb; color: #111827; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 -2px 0 rgba(0,0,0,.15); margin: 0; font-size: clamp(12px, 3.2vw, 16px); }
+.chip { width: 100%; aspect-ratio: 1 / 1; border-radius: 9999px; background: #e5e7eb; color: #111827; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 -2px 0 rgba(0,0,0,.15); margin: 0; font-size: clamp(12px, 3.2vw, 16px); border: 2px solid transparent; }
+.chip.none { background: #e5e7eb; color: #111827; }
+.chip.fail { background: #f87171; color: #111827; }
+.chip.ok { background: #86efac; color: #111827; }
+.chip.good { background: #4ade80; color: #111827; }
+.chip.today { background: #ffffff; color: #111827; border-color: #111827; box-shadow: 0 0 0 2px #ffffff inset; }
+.chip.today.done { background: #4ade80; color: #111827; border-color: #111827; }
 .weekbar-arrow { width: clamp(20px, 6vw, 24px); height: clamp(20px, 6vw, 24px); border-radius: 9999px; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #111827; box-shadow: 0 1px 0 rgba(0,0,0,.12); font-size: clamp(12px, 2.8vw, 16px); }
 .panel-title { margin: 0 0 12px; font-size: 17px; font-weight: 800; font-family: var(--font-pixel-kr); }
 
