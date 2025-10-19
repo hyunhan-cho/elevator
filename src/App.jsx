@@ -12,6 +12,7 @@ import Signup from './pages/Signup.jsx'
 import BackButton from './components/BackButton.jsx'
 import Navbar from './components/Navbar.jsx'
 import Weekbar from './components/Weekbar.jsx'
+import MonthProjects from './components/MonthProjects.jsx'
 
 // 공개 폴더(public)에 둔 이미지 경로를 사용합니다.
 const elevatorInsideImg = '/images/frame.png' // 엘리베이터 내부(창문 투명)
@@ -124,6 +125,7 @@ export default function App() {
       {/* 하단 패널: 퀘스트 & 주간 바 */}
   <QuestList onProgressChange={setProgressInfo} />
   <Weekbar done={progressInfo.done ?? 0} total={progressInfo.total ?? 0} />
+  <MonthProjects />
   <Badges currentFloor={currentFloor} />
       <Navbar onNavigate={(key) => {
         if (key === 'home') setView('home')

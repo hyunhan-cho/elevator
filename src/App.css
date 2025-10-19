@@ -293,6 +293,22 @@
 .weekbar-arrow { width: clamp(20px, 6vw, 24px); height: clamp(20px, 6vw, 24px); border-radius: 9999px; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #111827; box-shadow: 0 1px 0 rgba(0,0,0,.12); font-size: clamp(12px, 2.8vw, 16px); }
 .panel-title { margin: 0 0 12px; font-size: 17px; font-weight: 800; font-family: var(--font-pixel-kr); }
 
+/* ----- Month Projects (single card) ----- */
+.card-month { width: 100%; max-width: var(--panel-width); margin: 0 auto 18px; }
+.card-month, .card-month * { font-family: var(--font-sans); }
+.card-month .month-title { margin: 2px 2px 10px; font-size: clamp(18px, 4.8vw, 22px); font-weight: 900; color: #0f172a; }
+.month-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); background: #d9dde3; color: #6b7280; font-weight: 900; border-radius: 12px; padding: 8px 12px; margin: 0 -2px 10px; text-transform: lowercase; letter-spacing: .2px; }
+.month-wd { text-align: center; font-size: 12px; }
+.month-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 14px 0; padding: 6px 6px 2px; }
+.day { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; aspect-ratio: 1; font-weight: 900; color: #111827; }
+.day .day-num { position: relative; z-index: 1; }
+.day.today::after { content: ""; position: absolute; inset: 15%; border: 2px solid #111827; border-radius: 9999px; background: transparent; box-shadow: none; pointer-events: none; z-index: 0; }
+
+.project-list { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; }
+.project-item { background: #ffffff; border-radius: 12px; padding: 14px 16px; color: #0f172a; box-shadow: 0 2px 6px rgba(0,0,0,.08); border: 1px solid #e9ecef; font-weight: 700; font-size: 14px; cursor: pointer; text-align: left; }
+.project-item:active { transform: translateY(1px); }
+.project-item.done { opacity: .9; text-decoration: line-through; color: #6b7280; }
+
 /* 획득한 뱃지 UI */
 .earned-badges-row { display: flex; gap: 10px; align-items: center; }
 .earned-badge-img { width: clamp(40px, 12vw, 52px); height: auto; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; }
