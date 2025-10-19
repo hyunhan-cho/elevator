@@ -17,15 +17,14 @@
 }
 
 /* 고정 하단 네비게이션 (반응형) */
-.navbar { position: fixed; left: 0; right: 0; bottom: 0; height: var(--nav-height); background: var(--brand-teal); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -8px 24px rgba(0,0,0,.25); z-index: 120; }
-.nav-item { background: transparent; border: none; color: #eef3f5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; min-width: 56px; padding: 4px 6px; }
+.navbar { position: fixed; left: 0; right: 0; bottom: 0; min-height: var(--nav-height); background: var(--brand-teal); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -8px 24px rgba(0,0,0,.25); z-index: 120; }
+.nav-item { background: transparent; border: none; color: #eef3f5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; min-width: 56px; padding: 2px 4px; }
 .nav-icon { width: var(--nav-icon-size); height: var(--nav-icon-size); object-fit: contain; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; filter: drop-shadow(0 2px 0 rgba(0,0,0,.2)); }
-.nav-label { font-size: clamp(10px, 2.6vw, 12px); font-weight: 700; color: #eef3f5; font-family: var(--font-pixel-kr); }
+.nav-label { font-size: clamp(10px, 2.8vw, 12px); font-weight: 700; color: #eef3f5; font-family: var(--font-pixel-kr); line-height: 1.1; }
 
 @media (max-width: 420px) {
   .navbar { padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px)); }
   .nav-item { min-width: auto; gap: 4px; padding: 2px 4px; }
-  .nav-label { display: none; }
 }
 .earned-badge-img { width: clamp(40px, 12vw, 52px); height: auto; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; }
 /* 배지 획득 토스트 */
@@ -49,8 +48,8 @@
   justify-content: flex-start;
   /* iOS safe-area 고려 */
   /* 네비게이션 높이에 맞춰 하단 패딩 자동 조정 */
-  --nav-height: clamp(52px, 8dvh, 76px);
-  --nav-icon-size: clamp(20px, 5vw, 28px);
+  --nav-height: clamp(68px, 10dvh, 96px);
+  --nav-icon-size: clamp(28px, 8vw, 40px);
   padding: calc(16px + env(safe-area-inset-top, 0px)) clamp(10px, 4vw, 16px) calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
   font-family: var(--font-pixel-kr);
   color: #fff;
