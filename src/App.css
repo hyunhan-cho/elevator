@@ -1,5 +1,23 @@
 /* 획득한 뱃지 UI */
 .earned-badges-row { display: flex; gap: 10px; align-items: center; }
+
+/* 홈에서만 상단 패딩 제거 (헤더가 safe-area 포함 처리) */
+.app.home-view { padding-top: 0; }
+
+/* 홈 화면에서는 상단 패딩 제거 (헤더가 safe-area를 처리) */
+.home-view { padding-top: 0; }
+
+:root { --brand-teal: #3a8284; }
+
+/* 고정 하단 네비게이션 (반응형) */
+.navbar { position: fixed; left: 0; right: 0; bottom: 0; height: var(--nav-height); background: var(--brand-teal); display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)); box-shadow: 0 -8px 24px rgba(0,0,0,.25); z-index: 120; }
+.nav-item { background: transparent; border: none; color: #eef3f5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; min-width: 56px; padding: 4px 6px; }
+.nav-icon { width: var(--nav-icon-size); height: var(--nav-icon-size); object-fit: contain; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; filter: drop-shadow(0 2px 0 rgba(0,0,0,.2)); }
+.nav-label { font-size: clamp(10px, 2.6vw, 12px); font-weight: 700; color: #eef3f5; }
+
+@media (max-width: 360px) {
+  .nav-label { display: none; }
+}
 .earned-badge-img { width: clamp(40px, 12vw, 52px); height: auto; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; }
 /* 배지 획득 토스트 */
 .toast-layer { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
@@ -21,13 +39,18 @@
   align-items: center;
   justify-content: flex-start;
   /* iOS safe-area 고려 */
-  padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px));
+  /* 네비게이션 높이에 맞춰 하단 패딩 자동 조정 */
+  --nav-height: clamp(60px, 9dvh, 84px);
+  --nav-icon-size: clamp(24px, 5.5vw, 32px);
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   color: #fff;
   /* 공통 폭 변수: 화면이 작을 때는 vw 기준으로 줄이고, 큰 화면에서는 고정 최대폭 유지 */
   --wrap-width: min(92vw, 410px);   /* 엘리베이터/컨트롤 기준 폭 */
-  --panel-width: min(92vw, 360px);  /* 하단 카드 폭 (두 카드 동일) */
+  --panel-width: clamp(320px, 92vw, 420px);  /* 하단 카드 폭 (반응형) */
 }
+
+.app.home-view { padding-top: 0 !important; }
 
 .elevator-wrapper {
   width: 100%;
@@ -164,6 +187,49 @@
 
 /* 공통 패널 */
 .panel { background: #e5e7eb; color: #111827; margin: 0 auto 16px; padding: clamp(14px, 4vw, 18px); border-radius: 22px; width: var(--panel-width); max-width: 100%; box-shadow: 0 10px 24px rgba(0,0,0,.3); }
+
+/* Figma-like card */
+:root { --card-accent: #7aa7ff; }
+.card { background: #f3f4f6; color: #0f172a; border-radius: 18px; width: var(--panel-width); margin: 0 auto 14px; padding: 14px 14px 16px; box-shadow: 0 10px 24px rgba(0,0,0,.22); border: 2px solid rgba(0,0,0,.6); }
+.card-quests { border-color: var(--card-accent); }
+.card-quests .card-title { font-size: 22px; }
+.card-title { margin: 0 0 10px; font-size: clamp(18px, 4.8vw, 22px); font-weight: 900; }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.card-count { font-weight: 800; color: #6b7280; }
+
+/* Progress bar */
+.bar-row { display: flex; align-items: center; gap: 10px; }
+.bar { position: relative; flex: 1 1 auto; height: 14px; background: #e3e6ea; border-radius: 999px; box-shadow: inset 0 2px 3px rgba(0,0,0,.15); overflow: hidden; }
+.bar-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: linear-gradient(90deg, #e79a50, #f2bb7a); border-radius: 999px; box-shadow: 0 1px 0 rgba(255,255,255,.4) inset; transition: width .3s ease; }
+.bar-count { min-width: 36px; text-align: right; font-weight: 800; color: #9aa3ad; }
+
+/* Quests */
+.card-quests .bar { margin: 6px 0 12px; }
+.quest-list.fancy { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.quest-item { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+.quest-item.done { background: #c7cbd1; border-color: #c7cbd1; box-shadow: inset 0 2px 6px rgba(0,0,0,.08); }
+.quest-item.done .quest-text { color: #1f2937; }
+.quest-item.done .quest-sub { color: #374151; }
+.quest-item.done .quest-checkbox { background: #111827; border-color: #111827; }
+.quest-texts { display: flex; gap: 10px; align-items: baseline; }
+.quest-text { font-size: 14px; font-weight: 800; color: #111827; }
+.quest-sub { font-size: 12px; color: #9aa3ad; font-weight: 700; }
+.quest-checkbox { all: unset; box-sizing: border-box; width: 24px; height: 24px; padding: 0; border-radius: 4px; border: 2px solid #111827; background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.15); cursor: pointer; }
+.quest-checkbox:focus { outline: none; }
+.quest-checkbox.checked { background: #111827; }
+
+/* Weekbar */
+.weekbar { background: #f3f4f6; border-radius: 18px; border: 2px solid rgba(0,0,0,.6); box-shadow: 0 10px 24px rgba(0,0,0,.25); width: var(--panel-width); margin: 0 auto 18px; padding: 12px 12px 16px; position: relative; overflow: hidden; }
+.weekbar-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; justify-items: center; color: #6b7280; font-weight: 900; font-size: 12px; text-transform: lowercase; }
+.weekbar-body { display: grid; grid-template-columns: 24px 1fr 24px; align-items: center; margin-top: 8px; gap: 6px; }
+.weekbar-chips { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+.chip { width: 36px; height: 36px; border-radius: 9999px; background: #e5e7eb; color: #111827; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 -2px 0 rgba(0,0,0,.15); margin: 0 auto; }
+.chip.today { background: #fff; border: 2px solid #111827; }
+.chip.today.done { background: #7ed957; border-color: #111827; }
+.chip.fail { background: #ef6b6b; color: #111827; }
+.chip.ok { background: #9ae6b4; color: #111827; }
+.chip.good { background: #7ed957; color: #111827; }
+.weekbar-arrow { width: 24px; height: 24px; border-radius: 9999px; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #111827; box-shadow: 0 1px 0 rgba(0,0,0,.12); }
 .panel-title { margin: 0 0 12px; font-size: 17px; font-weight: 800; }
 
 /* 획득한 뱃지 UI */
@@ -194,8 +260,36 @@
   .mini-controls { gap: 10px; }
 }
 
+/* 홈 상단 로고 헤더 (Figma teal, full-bleed) */
+.home-header {
+  /* 풀 블리드 배경 */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: 0;
+  margin-bottom: 8px;
+  background: var(--brand-teal); /* Figma teal */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) 0 12px;
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  box-shadow: 0 4px 10px rgba(0,0,0,.18);
+}
+.home-logo { width: clamp(160px, 48vw, 220px); height: auto; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; filter: drop-shadow(0 2px 0 rgba(0,0,0,.22)) drop-shadow(0 8px 16px rgba(0,0,0,.34)); }
+
+/* 엘리베이터 내부 카드(TopInfo) Figma 스타일 */
+.top-info-card { position: absolute; left: 50%; top: 8px; transform: translateX(-50%); background: #f3f4f6; color: #0f172a; border-radius: 12px; padding: 10px 14px; z-index: 40; border: 3px solid #111827; width: calc(100% - 22px); max-width: calc(var(--wrap-width) - 22px); box-shadow: 0 6px 0 rgba(0,0,0,.45), 0 16px 28px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.7); }
+.info-date { font-weight: 900; font-size: 12px; letter-spacing: .8px; color: #0f172a; margin-bottom: 6px; }
+.info-lines { font-weight: 800; line-height: 1.35; }
+.info-main { font-size: clamp(13px, 3.4vw, 15px); }
+.info-sub { font-size: clamp(12px, 3.2vw, 14px); opacity: .95; }
+.info-num { font-size: 1.2em; letter-spacing: .3px; }
+
 /* 로그인 화면 */
-.login-page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; background: #3a8284; padding: 16px 16px 24px; position: relative; }
+.login-page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; background: var(--brand-teal); padding: 16px 16px 24px; position: relative; }
 .login-back { position: absolute; top: 12px; left: 12px; background: transparent; border: none; color: #e6fffa; font-size: 22px; line-height: 1; cursor: pointer; opacity: .9; }
 .login-header { display: flex; flex-direction: column; align-items: center; margin-top: 6px; }
 .login-logo { width: clamp(180px, 50vw, 200px); height: auto; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; filter: drop-shadow(0 2px 0 rgba(0,0,0,.22)) drop-shadow(0 8px 16px rgba(0,0,0,.34)); }
