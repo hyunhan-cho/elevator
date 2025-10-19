@@ -16,6 +16,7 @@ export default function App() {
   const [currentFloor, setCurrentFloor] = useState(1)
   const [direction, setDirection] = useState('up')
   const [progressInfo, setProgressInfo] = useState({ percent: 0, done: 0, total: 0 })
+  const [view, setView] = useState('splash')
 
   const goToFloor = (targetFloor) => {
     if (isMoving || !isOpen || currentFloor === targetFloor) return
@@ -45,8 +46,94 @@ export default function App() {
       goToFloor(desired)
     }
   }, [progressInfo, currentFloor, isMoving, isOpen])
+  if (view === 'splash') {
+    return (
+      <div className="splash-page">
+        <div className="splash-actions">
+          <button className="splash-btn" onClick={() => setView('login')}>로그인</button>
+          <button className="splash-btn" onClick={() => setView('signup')}>회원가입</button>
+        </div>
+        <div className="splash-tagline">한 층 한 층 올려보자</div>
+        <img className="splash-logo" src="/images/logo.png" alt="FLOORIDA" />
+      </div>
+    )
+  }
+  if (view === 'login') {
+    return (
+      <div className="login-page">
+        <button className="back-btn" aria-label="뒤로" onClick={() => setView('splash')}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M20 12H9" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round"/>
+          </svg>
+        </button>
+        <div className="login-header">
+          <img className="login-logo" src="/images/logo.png" alt="FLOORIDA" />
+          <div className="login-tagline">매일 성장하는 당신의 학습 동반자</div>
+        </div>
+        <div className="login-surface">
+          <div className="login-card">
+            <h2 className="login-title">로그인</h2>
+            <p className="login-subtitle">플로리다에 오신 것을 환영합니다!</p>
+            <label className="login-label">아이디</label>
+            <input className="login-input" type="email" placeholder="name1234@naver.com" />
+            <label className="login-label">비밀번호</label>
+            <input className="login-input" type="password" placeholder="비밀번호를 입력하세요" />
+            <button className="login-button" onClick={() => setView('home')}>플로리다 시작!</button>
+            <div className="login-footer">
+              <span>계정이 없으신가요?</span>
+              <a href="#" onClick={(e) => { e.preventDefault(); setView('signup') }}>회원가입</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  if (view === 'signup') {
+    return (
+      <div className="login-page">
+        <button className="back-btn" aria-label="뒤로" onClick={() => setView('splash')}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M20 12H9" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round"/>
+          </svg>
+        </button>
+        <div className="login-header">
+          <img className="login-logo" src="/images/logo.png" alt="FLOORIDA" />
+          <div className="login-tagline">매일 성장하는 당신의 학습 동반자</div>
+        </div>
+        <div className="login-surface">
+          <div className="login-card">
+            <h2 className="login-title">회원가입</h2>
+            <p className="login-subtitle">새로운 여정을 시작하세요!</p>
+            <label className="login-label">이름</label>
+            <input className="login-input" type="text" placeholder="홍길동" />
+            <label className="login-label">이메일</label>
+            <input className="login-input" type="email" placeholder="name1234@naver.com" />
+            <label className="login-label">비밀번호</label>
+            <input className="login-input" type="password" placeholder="영문, 숫자 조합 7~20자" />
+            <label className="agree-row">
+              <input type="checkbox" />
+              <span>이용약관 및 개인정보 처리에 동의합니다.</span>
+            </label>
+            <button className="login-button" onClick={() => setView('login')}>가입하기</button>
+            <div className="login-footer">
+              <span>이미 가입하셨나요?</span>
+              <a href="#" onClick={(e) => { e.preventDefault(); setView('login') }}>로그인</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="app">
+      <button className="back-btn" aria-label="뒤로" onClick={() => setView('splash')}>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M20 12H9" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round"/>
+        </svg>
+      </button>
       <div className="elevator-wrapper">
         {/* 엘리베이터 본체 */}
         <div className={`elevator ${isMoving ? 'elevator-moving' : ''}`}>
