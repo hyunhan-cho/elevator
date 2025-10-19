@@ -15,7 +15,9 @@
 .nav-icon { width: var(--nav-icon-size); height: var(--nav-icon-size); object-fit: contain; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; filter: drop-shadow(0 2px 0 rgba(0,0,0,.2)); }
 .nav-label { font-size: clamp(10px, 2.6vw, 12px); font-weight: 700; color: #eef3f5; }
 
-@media (max-width: 360px) {
+@media (max-width: 420px) {
+  .navbar { padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px)); }
+  .nav-item { min-width: auto; gap: 4px; padding: 2px 4px; }
   .nav-label { display: none; }
 }
 .earned-badge-img { width: clamp(40px, 12vw, 52px); height: auto; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor; }
@@ -40,9 +42,9 @@
   justify-content: flex-start;
   /* iOS safe-area 고려 */
   /* 네비게이션 높이에 맞춰 하단 패딩 자동 조정 */
-  --nav-height: clamp(60px, 9dvh, 84px);
-  --nav-icon-size: clamp(24px, 5.5vw, 32px);
-  padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
+  --nav-height: clamp(52px, 8dvh, 76px);
+  --nav-icon-size: clamp(20px, 5vw, 28px);
+  padding: calc(16px + env(safe-area-inset-top, 0px)) clamp(10px, 4vw, 16px) calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   color: #fff;
   /* 공통 폭 변수: 화면이 작을 때는 vw 기준으로 줄이고, 큰 화면에서는 고정 최대폭 유지 */
@@ -190,7 +192,7 @@
 
 /* Figma-like card */
 :root { --card-accent: #7aa7ff; }
-.card { background: #f3f4f6; color: #0f172a; border-radius: 18px; width: var(--panel-width); margin: 0 auto 14px; padding: 14px 14px 16px; box-shadow: 0 10px 24px rgba(0,0,0,.22); border: 2px solid rgba(0,0,0,.6); }
+.card { background: #f3f4f6; color: #0f172a; border-radius: 18px; width: 100%; max-width: var(--panel-width); margin: 0 auto 14px; padding: clamp(10px, 3.2vw, 12px) clamp(10px, 3.2vw, 12px) clamp(12px, 3.6vw, 14px); box-shadow: 0 10px 24px rgba(0,0,0,.22); border: 2px solid rgba(0,0,0,.6); }
 .card-quests { border-color: var(--card-accent); }
 .card-quests .card-title { font-size: 22px; }
 .card-title { margin: 0 0 10px; font-size: clamp(18px, 4.8vw, 22px); font-weight: 900; }
@@ -199,14 +201,16 @@
 
 /* Progress bar */
 .bar-row { display: flex; align-items: center; gap: 10px; }
-.bar { position: relative; flex: 1 1 auto; height: 14px; background: #e3e6ea; border-radius: 999px; box-shadow: inset 0 2px 3px rgba(0,0,0,.15); overflow: hidden; }
-.bar-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: linear-gradient(90deg, #e79a50, #f2bb7a); border-radius: 999px; box-shadow: 0 1px 0 rgba(255,255,255,.4) inset; transition: width .3s ease; }
+.bar { position: relative; flex: 1 1 auto; height: clamp(12px, 3.6vw, 16px); background: linear-gradient(180deg, #e9ecef 0%, #e3e6ea 50%, #d9dde3 100%); border-radius: 999px; box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -1px 0 rgba(0,0,0,.09); overflow: hidden; }
+.bar-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: linear-gradient(180deg, #d0824e 0%, #c56e3c 100%); border-radius: 999px; box-shadow: inset 0 2px 0 rgba(255,255,255,.55), inset 0 -1px 0 rgba(0,0,0,.08); filter: drop-shadow(0 1px 2px rgba(0,0,0,.16)); transition: width .3s ease; }
+/* specular highlight stripe */
+.bar-fill::before { content: ""; position: absolute; left: 6px; right: 12%; top: 2px; height: 28%; background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.55)); border-radius: 999px; pointer-events: none; }
 .bar-count { min-width: 36px; text-align: right; font-weight: 800; color: #9aa3ad; }
 
 /* Quests */
-.card-quests .bar { margin: 6px 0 12px; }
+.card-quests .bar { height: clamp(12px, 3.6vw, 16px); margin: 6px 0 12px; }
 .quest-list.fancy { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-.quest-item { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+.quest-item { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: clamp(10px, 3vw, 12px) clamp(12px, 3.4vw, 14px); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
 .quest-item.done { background: #c7cbd1; border-color: #c7cbd1; box-shadow: inset 0 2px 6px rgba(0,0,0,.08); }
 .quest-item.done .quest-text { color: #1f2937; }
 .quest-item.done .quest-sub { color: #374151; }
@@ -214,22 +218,17 @@
 .quest-texts { display: flex; gap: 10px; align-items: baseline; }
 .quest-text { font-size: 14px; font-weight: 800; color: #111827; }
 .quest-sub { font-size: 12px; color: #9aa3ad; font-weight: 700; }
-.quest-checkbox { all: unset; box-sizing: border-box; width: 24px; height: 24px; padding: 0; border-radius: 4px; border: 2px solid #111827; background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.15); cursor: pointer; }
+.quest-checkbox { all: unset; box-sizing: border-box; width: clamp(20px, 5.2vw, 24px); height: clamp(20px, 5.2vw, 24px); padding: 0; border-radius: 4px; border: 2px solid #111827; background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.15); cursor: pointer; }
 .quest-checkbox:focus { outline: none; }
 .quest-checkbox.checked { background: #111827; }
 
 /* Weekbar */
-.weekbar { background: #f3f4f6; border-radius: 18px; border: 2px solid rgba(0,0,0,.6); box-shadow: 0 10px 24px rgba(0,0,0,.25); width: var(--panel-width); margin: 0 auto 18px; padding: 12px 12px 16px; position: relative; overflow: hidden; }
-.weekbar-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; justify-items: center; color: #6b7280; font-weight: 900; font-size: 12px; text-transform: lowercase; }
-.weekbar-body { display: grid; grid-template-columns: 24px 1fr 24px; align-items: center; margin-top: 8px; gap: 6px; }
-.weekbar-chips { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
-.chip { width: 36px; height: 36px; border-radius: 9999px; background: #e5e7eb; color: #111827; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 -2px 0 rgba(0,0,0,.15); margin: 0 auto; }
-.chip.today { background: #fff; border: 2px solid #111827; }
-.chip.today.done { background: #7ed957; border-color: #111827; }
-.chip.fail { background: #ef6b6b; color: #111827; }
-.chip.ok { background: #9ae6b4; color: #111827; }
-.chip.good { background: #7ed957; color: #111827; }
-.weekbar-arrow { width: 24px; height: 24px; border-radius: 9999px; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #111827; box-shadow: 0 1px 0 rgba(0,0,0,.12); }
+.weekbar { background: #f3f4f6; border-radius: 18px; border: 2px solid rgba(0,0,0,.6); box-shadow: 0 10px 24px rgba(0,0,0,.25); width: 100%; max-width: var(--panel-width); margin: 0 auto 18px; padding: clamp(10px, 2.8vw, 12px) clamp(10px, 2.8vw, 12px) clamp(12px, 3.2vw, 14px); position: relative; overflow: hidden; }
+.weekbar-labels { display: grid; grid-template-columns: repeat(7, 1fr); gap: clamp(4px, 1.4vw, 8px); justify-items: center; color: #6b7280; font-weight: 900; font-size: clamp(10px, 2.6vw, 12px); text-transform: lowercase; }
+.weekbar-body { display: grid; grid-template-columns: clamp(20px, 6vw, 24px) 1fr clamp(20px, 6vw, 24px); align-items: center; margin-top: clamp(6px, 2vw, 8px); gap: clamp(4px, 1.6vw, 6px); }
+.weekbar-chips { display: grid; grid-template-columns: repeat(7, 1fr); gap: clamp(6px, 1.8vw, 10px); }
+.chip { width: 100%; aspect-ratio: 1 / 1; border-radius: 9999px; background: #e5e7eb; color: #111827; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 -2px 0 rgba(0,0,0,.15); margin: 0; font-size: clamp(12px, 3.2vw, 16px); }
+.weekbar-arrow { width: clamp(20px, 6vw, 24px); height: clamp(20px, 6vw, 24px); border-radius: 9999px; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #111827; box-shadow: 0 1px 0 rgba(0,0,0,.12); font-size: clamp(12px, 2.8vw, 16px); }
 .panel-title { margin: 0 0 12px; font-size: 17px; font-weight: 800; }
 
 /* 획득한 뱃지 UI */
